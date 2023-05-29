@@ -1,3 +1,17 @@
-import { SignInResponseDto } from 'src/modules/auth/dto';
+import { Exclude, Expose } from 'class-transformer';
+import { ERoles } from 'src/databases';
 
-export class QueryUserResponseDto extends SignInResponseDto {}
+@Exclude()
+export class QueryUserResponseDto {
+  @Expose()
+  id: string;
+
+  @Expose()
+  username: string;
+
+  @Expose()
+  displayname: string;
+
+  @Expose()
+  role: ERoles;
+}

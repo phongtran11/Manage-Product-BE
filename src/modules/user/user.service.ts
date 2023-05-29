@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { User } from 'src/databases';
 import { SignUpDto } from '../auth/dto';
-import { QueryUserParamsDto } from './dto';
+import { QueryUserParamsDto, QueryUserResponseDto } from './dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -39,11 +40,15 @@ export class UserService {
     const totalPage = Math.ceil(total / limit);
 
     return {
-      data: users,
+      data: plainToInstance(QueryUserResponseDto, users),
       totalRecord: total,
       totalPage: totalPage > 1 ? totalPage : 1,
       page,
       limit,
     };
+  }
+
+  async deleteUser(userId: Types.ObjectId) {
+    return await this.userModel.deleteOne({ _id: userId });
   }
 }

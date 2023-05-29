@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ERoles } from 'src/databases';
 
 export class SignInDto {
@@ -10,15 +10,26 @@ export class SignInDto {
 }
 
 export class SignUpDto {
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'Yêu cầu tên tài khoản',
+  })
   username: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'Yêu cầu tên mật khẩu',
+  })
   password: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'Yêu cầu tên hiển thị',
+  })
   displayname: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'Yêu cầu chức danh',
+  })
+  @IsEnum(ERoles, {
+    message: 'Chức danh không hợp lệ',
+  })
   role: ERoles;
 }
