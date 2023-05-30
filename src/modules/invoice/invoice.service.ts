@@ -53,4 +53,8 @@ export class InvoiceService {
   async updateInvoice(id: Types.ObjectId, patchInvoiceDto: PatchInvoiceDto) {
     return await this.invoiceModel.findByIdAndUpdate(id, patchInvoiceDto);
   }
+
+  async deleteInvoice(id: Types.ObjectId) {
+    return await this.invoiceModel.findByIdAndDelete(id);
+  }
 }

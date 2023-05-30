@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -53,5 +54,11 @@ export class InvoiceController {
   ) {
     const objectId = new Types.ObjectId(id);
     return await this.invoiceService.updateInvoice(objectId, patchInvoiceDto);
+  }
+
+  @Delete('delete/:id')
+  async deleteInvoice(@Param('id') id: string) {
+    const objectId = new Types.ObjectId(id);
+    return await this.invoiceService.deleteInvoice(objectId);
   }
 }
