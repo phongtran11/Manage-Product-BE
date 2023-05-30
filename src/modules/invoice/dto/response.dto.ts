@@ -1,6 +1,4 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Types } from 'mongoose';
-
 @Exclude()
 export class QueryInvoicesResponseDto {
   @Expose()
@@ -25,10 +23,16 @@ export class QueryInvoicesResponseDto {
   weightBoxAndPackage: number;
 
   @Expose()
-  createdAt: Date;
+  weightCancelSG: number;
 
   @Expose()
-  cancelInfo: Types.ObjectId[];
+  reasonCancelSG: string;
+
+  @Expose()
+  weightCancelDL: number;
+
+  @Expose()
+  reasonCancelDL: string;
 
   @Expose()
   id: string;

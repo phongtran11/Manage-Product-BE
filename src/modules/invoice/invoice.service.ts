@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Invoice } from 'src/databases';
-import { CreateInvoiceDto, QueryListInvoiceDto } from './dto';
+import {
+  CreateInvoiceDto,
+  PatchInvoiceDto,
+  QueryDetailInvoiceDto,
+  QueryListInvoiceDto,
+} from './dto';
 
 @Injectable()
 export class InvoiceService {
@@ -39,5 +44,13 @@ export class InvoiceService {
       page,
       limit,
     };
+  }
+
+  async getDetailInvoice({ id }: QueryDetailInvoiceDto) {
+    return await this.invoiceModel.findById(id);
+  }
+
+  async updateInvoice(id: Types.ObjectId, patchInvoiceDto: PatchInvoiceDto) {
+    return await this.invoiceModel.findByIdAndUpdate(id, patchInvoiceDto);
   }
 }

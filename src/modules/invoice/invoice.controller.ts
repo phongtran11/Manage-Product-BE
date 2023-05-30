@@ -1,6 +1,22 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
-import { CreateInvoiceDto, QueryListInvoiceDto } from './dto';
+import {
+  CreateInvoiceDto,
+  PatchInvoiceDto,
+  QueryDetailInvoiceDto,
+  QueryInvoicesResponseDto,
+  QueryListInvoiceDto,
+} from './dto';
+import { plainToInstance } from 'class-transformer';
+import { Types } from 'mongoose';
 
 @Controller('invoice')
 export class InvoiceController {
@@ -17,5 +33,25 @@ export class InvoiceController {
   async getListInvoice(@Query() query: QueryListInvoiceDto) {
     const list = await this.invoiceService.listInvoices(query);
     return list;
+  }
+
+  @Get('detail')
+  async getDetailInvoice(
+    @Query() queryDetailInvoiceDto: QueryDetailInvoiceDto,
+  ) {
+    const invoice = await this.invoiceService.getDetailInvoice(
+      queryDetailInvoiceDto,
+    );
+
+    return plainToInstance(QueryInvoicesResponseDto, invoice);
+  }
+
+  @Patch('update/:id')
+  async updateInvoice(
+    @Param('id') id: string,
+    @Body() patchInvoiceDto: PatchInvoiceDto,
+  ) {
+    const objectId = new Types.ObjectId(id);
+    return await this.invoiceService.updateInvoice(objectId, patchInvoiceDto);
   }
 }
